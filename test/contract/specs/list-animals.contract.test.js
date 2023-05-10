@@ -1,5 +1,5 @@
 import { provider } from '../config/init-pact.js';
-import {Matchers} from '@pact-foundation/pact';
+import { Matchers } from '@pact-foundation/pact';
 import { AnimalController } from '../../../controllers/AnimalsController.js';
 import { expect } from 'chai';
 
