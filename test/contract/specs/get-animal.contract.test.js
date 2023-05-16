@@ -4,23 +4,22 @@ import { AnimalController } from '../../../controllers/AnimalsController.js';
 import { expect } from 'chai';
 
 describe('Animal Service', () => {
-    describe('When a request to list all animals is made', () => {
+    describe('When a request to get an animal is made', () => {
         before(async () => {
             await provider.setup();
             await provider.addInteraction({
-                uponReceiving: 'a request to list all animals',
-                state: "there are animals",
-
+                uponReceiving: 'a request to get an animal',
+                state: "there are animals to get",
                 withRequest: {
                     method: 'GET',
-                    path: '/animals'
+                    path: Matchers.string('/animals/{name}')
                 },
                 willRespondWith: {
                     status: 200,
                     body: Matchers.eachLike({
-                        name: Matchers.like('manchas'),
-                        breed: Matchers.like("Bengali"),
-                        gender: Matchers.like("Female"),
+                        name: Matchers.like("Popeye"),
+                        breed: Matchers.like("Azul Ruso"),
+                        gender: Matchers.like("Male"),
                         vaccinated: Matchers.boolean(true)
                     })
                 }
@@ -28,21 +27,26 @@ describe('Animal Service', () => {
         });
 
         after(() => provider.finalize());
-        
+
         it('should return the correct data', async () => {
-            const response = await AnimalController.list();
+            const popeye = {
+                name: "Popeye",
+                breed: "Azul Ruso",
+                gender: "Male",
+                vaccinated: true
+            }
+
+            const response = await AnimalController.getAnimal("Popeye");
             const responseBody = response.data;
 
-            // Verifying response is an array with one element
+            // Verifying response is not undefined
             expect(responseBody).to.not.be.undefined;
-            expect(responseBody).to.be.an('array');
-            expect(responseBody).to.have.lengthOf(1);
 
-            // Verifyin data within response array
-            var cat = responseBody[0]
-            expect(cat.name).to.be.equal('manchas');
-            expect(cat.breed).to.be.equal('Bengali');
-            expect(cat.gender).to.be.equal('Female');
+            // Verifying data properties within response
+            var cat = responseBody[0];
+            expect(cat.name).to.be.equal('Popeye');
+            expect(cat.breed).to.be.equal('Azul Ruso');
+            expect(cat.gender).to.be.equal('Male');
             expect(cat.vaccinated).to.be.true;
 
             await provider.verify()
