@@ -10,7 +10,7 @@
     "lint": "next lint",
     "test:component:open": "cypress open",
     "test:contract": "mocha test/contract/**/*.test.js -r dotenv/config",
-    "publish:contract": "node ./test/contract/config/publish.js",
+    "publish:contract": "\"pact-broker publish ./test/contract/pacts/CatShelterFront-CatShelterBack.json --consumer-app-version 0.1.0 --branch main --broker-base-url https://alejandrofonseca25.pactflow.io --broker-token 0VesHrhJOv2YRAue6Bvi7g\"",
     "test:unit": "mocha test/unit/**/*.test.js"
   },
   "dependencies": {
