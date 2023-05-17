@@ -16,7 +16,7 @@ describe('Animal Service', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: Matchers.eachLike({
+                    body: Matchers.somethingLike({
                         name: Matchers.like("Popeye"),
                         breed: Matchers.like("Azul Ruso"),
                         gender: Matchers.like("Male"),
@@ -43,11 +43,11 @@ describe('Animal Service', () => {
             expect(responseBody).to.not.be.undefined;
 
             // Verifying data properties within response
-            var cat = responseBody[0];
-            expect(cat.name).to.be.equal('Popeye');
-            expect(cat.breed).to.be.equal('Azul Ruso');
-            expect(cat.gender).to.be.equal('Male');
-            expect(cat.vaccinated).to.be.true;
+            expect(responseBody.name).to.be.equal('Popeye');
+            expect(responseBody.breed).to.be.equal('Azul Ruso');
+            expect(responseBody.gender).to.be.equal('Male');
+            expect(responseBody.vaccinated).to.be.true;
+
 
             await provider.verify()
         });

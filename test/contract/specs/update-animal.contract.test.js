@@ -13,14 +13,20 @@ describe('Animal Service', () => {
                 withRequest: {
                     method: 'PUT',
                     path: Matchers.string('/animals/{name}'),
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: Matchers.eachLike({
+                    body: Matchers.somethingLike({
                         name: Matchers.like("Popeye"),
                         breed: Matchers.like("Azul Ruso"),
                         gender: Matchers.like("Male"),
-                        vaccinated: Matchers.boolean(true),
+                        vaccinated: Matchers.boolean(true)
+                    })
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: Matchers.somethingLike({
+                        name: Matchers.like("Popeye"),
+                        breed: Matchers.like("Azul Ruso"),
+                        gender: Matchers.like("Male"),
+                        vaccinated: Matchers.boolean(false),
                     })
                 }
             });
@@ -33,10 +39,10 @@ describe('Animal Service', () => {
                 name: "Popeye",
                 breed: "Azul Ruso",
                 gender: "Male",
-                vaccinated: true
+                vaccinated: false
             }
 
-            const response = await AnimalController.updateAnimal("Popeye");
+            const response = await AnimalController.updateAnimal("Popeye",popeye);
             const responseBody = response.data;
 
             // Verifying response to not be undifined and return 200 status
@@ -44,11 +50,11 @@ describe('Animal Service', () => {
             expect(response.status).to.be.eql(200);
 
             // Verifying data within response array
-            var cat = responseBody[0];
-            expect(cat.name).to.be.equal('Popeye');
-            expect(cat.breed).to.be.equal('Azul Ruso');
-            expect(cat.gender).to.be.equal('Male');
-            expect(cat.vaccinated).to.be.true;
+            expect(responseBody.name).to.be.equal('Popeye');
+            expect(responseBody.breed).to.be.equal('Azul Ruso');
+            expect(responseBody.gender).to.be.equal('Male');
+            expect(responseBody.vaccinated).to.be.false;
+
 
             await provider.verify()
         });
