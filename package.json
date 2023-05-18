@@ -11,7 +11,6 @@
     "test:component:open": "cypress open",
     "publish:contract": "node ./test/contract/config/publish.js",
     "test:contract": "mocha test/contract/**/*.test.js -r dotenv/config"
-
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -29,6 +28,10 @@
     "swr": "^2.1.0"
   },
   "devDependencies": {
-    "cypress": "^12.8.1"
+    "@pact-foundation/pact": "^11.0.2",
+    "chai": "^4.3.7",
+    "cypress": "^12.8.1",
+    "mocha": "^10.2.0",
+    "moxios": "^0.4.0"
   }
 }
